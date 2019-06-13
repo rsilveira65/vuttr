@@ -32,7 +32,7 @@ class LoadTools extends AbstractFixture
             'Title' => 'fastify',
             'Link' => 'https://www.fastify.io/',
             'Description' => 'Extremely fast and simple, low-overhead web framework for NodeJS. Supports HTTP2.',
-            'Tags' => ['web', 'framework', 'node', 'node', 'http2', 'https', 'rest']
+            'Tags' => ['web', 'framework', 'node', 'http2', 'https', 'rest']
         ],
     ];
 

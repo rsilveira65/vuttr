@@ -34,7 +34,6 @@ class Tag
     private $title;
 
     /**
-     * @Groups({"ApiResponse"})
      * @ORM\ManyToMany(targetEntity="Tool", mappedBy="tags")
      *
      */
