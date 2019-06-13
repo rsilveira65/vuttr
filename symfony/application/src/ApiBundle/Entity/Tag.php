@@ -2,6 +2,8 @@
 
 namespace ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -30,6 +32,21 @@ class Tag
      * @ORM\Column(name="title", type="string")
      */
     private $title;
+
+    /**
+     * @Groups({"ApiResponse"})
+     * @ORM\ManyToMany(targetEntity="Tool", mappedBy="tags")
+     *
+     */
+    private $tools;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tools = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -67,6 +84,40 @@ class Tag
         $this->title = $title;
 
         return $this;
+    }
+
+    /**
+     * Add tool
+     *
+     * @param Tool $tool
+     *
+     * @return Tag
+     */
+    public function addTool(Tool $tool)
+    {
+        $this->tools[] = $tool;
+
+        return $this;
+    }
+
+    /**
+     * Remove tool
+     *
+     * @param Tool $tool
+     */
+    public function removeTool(Tool $tool)
+    {
+        $this->tools->removeElement($tool);
+    }
+
+    /**
+     * Get products
+     *
+     * @return Collection
+     */
+    public function getTools()
+    {
+        return $this->tools;
     }
 
 }

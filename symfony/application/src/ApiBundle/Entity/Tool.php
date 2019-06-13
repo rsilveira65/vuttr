@@ -52,9 +52,10 @@ class Tool
 
     /**
      * @Groups({"ApiResponse"})
-     * @var Collection
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="tools", cascade={"persist"})
      */
     private $tags;
+
 
     /**
      * Tool constructor.
@@ -158,6 +159,16 @@ class Tool
     }
 
     /**
+     * Remove tag
+     *
+     * @param Tag $tag
+     */
+    public function removeTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
      * @param ArrayCollection $tags
      * @return Tool
      */
@@ -168,8 +179,10 @@ class Tool
         return $this;
     }
 
+
+
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
     public function getTags()
     {

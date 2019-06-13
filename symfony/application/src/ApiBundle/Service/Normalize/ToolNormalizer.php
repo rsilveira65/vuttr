@@ -25,7 +25,15 @@ class ToolNormalizer
     {
         $encoders = [new JsonEncoder()];
         $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
-        $normalizers = [new ObjectNormalizer($classMetadataFactory)];
+
+        $normalizer = new ObjectNormalizer($classMetadataFactory);
+        $normalizer->setCircularReferenceLimit(2);
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $normalizers = [$normalizer];
 
         $this->serializer = new Serializer($normalizers, $encoders);
     }

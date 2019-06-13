@@ -2,10 +2,7 @@
 
 namespace ApiBundle\Controller;
 
-use ApiBundle\Service\Factory\PackageFactory;
 use ApiBundle\Service\Normalize\ToolNormalizer;
-use ApiBundle\Service\Request\ProductHandler;
-use ApiBundle\Service\Strategy\PackStrategy;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
