@@ -4,7 +4,6 @@ namespace ApiBundle\DataFixtures\ORM;
 
 use ApiBundle\Entity\Tag;
 use ApiBundle\Entity\Tool;
-use ApiBundle\Entity\ToolTag;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -42,8 +41,6 @@ class LoadTools extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
-        $newTags = [];
-
         foreach ($this->tools as $tool) {
             $toolEntity = new Tool();
             foreach ($tool as $key => $toolData) {
@@ -52,6 +49,9 @@ class LoadTools extends AbstractFixture
                     foreach ($tool['Tags'] as $tagTitle) {
 
                         $newTags[] = $this->createNewTag($manager, $tagTitle);
+                        $toolEntity->addTag(
+                            $this->createNewTag($manager, $tagTitle)
+                        );
                     }
 
                     continue;
@@ -62,16 +62,8 @@ class LoadTools extends AbstractFixture
                 $toolEntity->{$method}($toolData);
             }
 
+
             $manager->persist($toolEntity);
-
-            foreach ($newTags as $newTag) {
-                $toolTag = new ToolTag();
-                $toolTag
-                    ->setTag($newTag)
-                    ->setTool($toolEntity);
-
-                $manager->persist($toolTag);
-            }
         }
 
         $manager->flush();
@@ -92,9 +84,6 @@ class LoadTools extends AbstractFixture
         }
 
         $newTag = (new Tag())->setTitle($tagTitle);
-
-        $manager->persist($newTag);
-        $manager->flush();
 
         return $newTag;
     }
