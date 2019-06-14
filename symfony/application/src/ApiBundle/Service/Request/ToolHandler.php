@@ -41,7 +41,8 @@ class ToolHandler
     }
 
     /**
-     * @throws \Exception
+     * @return Tool
+     * @throws \Doctrine\ORM\ORMException
      */
     public function parseToolsFromRequest() : Tool
     {
@@ -50,11 +51,11 @@ class ToolHandler
         $tool = new Tool();
 
         $tool
-            ->setDescription($tool['description'])
-            ->setLink($tool['link'])
-            ->setTitle($tool['title']);
+            ->setDescription($toolArray['description'])
+            ->setLink($toolArray['link'])
+            ->setTitle($toolArray['title']);
 
-        if (isset($toolArray['tags']) and !empty($toolArray['tags'])) {
+        if (isset($toolArray['tags']) or !empty($toolArray['tags'])) {
             foreach ($toolArray['tags'] as $tagTitle) {
                 $tag = new Tag();
                 $tag->setTitle($tagTitle);
@@ -64,6 +65,8 @@ class ToolHandler
         }
 
         $this->em->persist($tool);
+        $this->em->flush();
+
 
         return $tool;
     }
