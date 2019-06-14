@@ -25,7 +25,7 @@ class ApiControllerTest extends WebTestCase
     /**
      * @covers \ApiBundle\Controller\ApiController::toolAction()
      */
-    public function testPack()
+    public function testGetTools()
     {
         $this->client->request(
             'GET',
@@ -33,5 +33,47 @@ class ApiControllerTest extends WebTestCase
         );
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('id', $data[0]);
+        $this->assertArrayHasKey('title', $data[0]);
+        $this->assertArrayHasKey('link', $data[0]);
+        $this->assertArrayHasKey('description', $data[0]);
+        $this->assertArrayHasKey('tags', $data[0]);
+    }
+
+    /**
+     * @covers \ApiBundle\Controller\ApiController::toolAction()
+     */
+    public function testAddTool()
+    {
+        $this->client->request(
+            'POST',
+            '/api/tools',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode(
+
+                [
+                    'title' => 'hotel',
+                    'link' => 'https://github.com/typicode/hotel',
+                    'description' => 'Local app manager. Start apps within your browser, developer tool with local .localhost domain and https out of the box.',
+                    'tags' => ['node', 'organizing', 'webapps', 'domain', 'developer', 'https', 'proxy']
+                ]
+
+            )
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('id', $data[0]);
+        $this->assertArrayHasKey('title', $data[0]);
+        $this->assertArrayHasKey('link', $data[0]);
+        $this->assertArrayHasKey('description', $data[0]);
+        $this->assertArrayHasKey('tags', $data[0]);
     }
 }
