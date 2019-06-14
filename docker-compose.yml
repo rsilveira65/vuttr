@@ -22,6 +22,7 @@ services:
         - CODE_ENV=dev
     environment:
       - CODE_ENV=dev
+      - SYMFONY_PHPUNIT_VERSION=5.7.27
     expose:
       - "9000"
     image: application-image
