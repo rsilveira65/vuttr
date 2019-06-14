@@ -6,4 +6,9 @@ parameters:
 services:
   api.tool_normalizer:
       class: ApiBundle\Service\Normalize\ToolNormalizer
+  api.tool_handler:
+    class: ApiBundle\Service\Request\ToolHandler
+    arguments: ["@doctrine.orm.entity_manager"]
+
+
 

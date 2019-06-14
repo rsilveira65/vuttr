@@ -1,8 +1,10 @@
 <?php
+
 namespace ApiBundle\Service\Request;
 
 use ApiBundle\Entity\Tag;
 use ApiBundle\Entity\Tool;
+use Doctrine\ORM\EntityManager;
 use \Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,6 +17,18 @@ class ToolHandler
     /** @var Request $request */
     private $request;
 
+    /** @var EntityManager $em */
+    private $em;
+
+    /**
+     * ToolHandler constructor.
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->em = $entityManager;
+    }
+
     /**
      * @param Request $request
      * @return $this
@@ -25,6 +39,7 @@ class ToolHandler
 
         return $this;
     }
+
     /**
      * @throws \Exception
      */
@@ -47,6 +62,8 @@ class ToolHandler
                 $tool->addTag($tag);
             }
         }
+
+        $this->em->persist($tool);
 
         return $tool;
     }
