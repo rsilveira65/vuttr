@@ -12,14 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
  * @covers \ApiBundle\Controller\ApiController
  * @package ApiBundle\Tests\Controller
  */
-class ApiControllerTest extends WebTestCase
+class ApiControllerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Client */
+    /** @var  \GuzzleHttp\Client $client */
     private $client;
 
     public function setUp()
     {
-        $this->client = static::createClient();
+        $this->client = new \GuzzleHttp\Client(['base_uri' => 'http://nginx/']);
     }
 
     /**
@@ -27,14 +27,11 @@ class ApiControllerTest extends WebTestCase
      */
     public function testGetTools()
     {
-        $this->client->request(
-            'GET',
-            '/api/tools'
-        );
+        $response = $this->client->get('/api/tools');
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = json_decode($response->getBody(), true);
 
         $this->assertArrayHasKey('id', $data[0]);
         $this->assertArrayHasKey('title', $data[0]);
@@ -44,31 +41,25 @@ class ApiControllerTest extends WebTestCase
     }
 
     /**
-     * @covers \ApiBundle\Controller\ApiController::toolAction()
+     * @covers \ApiBundle\Controller\ApiController::addToolAction()
      */
     public function testAddTool()
     {
-        $this->client->request(
-            'POST',
+        $response = $this->client->post(
             '/api/tools',
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            json_encode(
-
+            ['json' =>
                 [
                     'title' => 'hotel',
                     'link' => 'https://github.com/typicode/hotel',
                     'description' => 'Local app manager. Start apps within your browser, developer tool with local .localhost domain and https out of the box.',
                     'tags' => ['node', 'organizing', 'webapps', 'domain', 'developer', 'https', 'proxy']
                 ]
-
-            )
+            ]
         );
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = json_decode($response->getBody(), true);
 
         $this->assertArrayHasKey('id', $data[0]);
         $this->assertArrayHasKey('title', $data[0]);
@@ -78,31 +69,25 @@ class ApiControllerTest extends WebTestCase
     }
 
     /**
-     * @covers \ApiBundle\Controller\ApiController::toolAction()
+     * @covers \ApiBundle\Controller\ApiController::deleteToolAction()
      */
     public function testDeleteTool()
     {
-        $this->client->request(
-            'DELETE',
-            '/api/tools/id/3'
-        );
+        $response = $this->client->delete('/api/tools/id/3');
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     /**
-     * @covers \ApiBundle\Controller\ApiController::toolAction()
+     * @covers \ApiBundle\Controller\ApiController::searchToolAction()
      */
     public function testSearchTools()
     {
-        $this->client->request(
-            'GET',
-            '/api/tools/tag/rest'
-        );
+        $response = $this->client->get('/api/tools/tag/node');
 
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $data = json_decode($this->client->getResponse()->getContent(), true);
+        $data = json_decode($response->getBody(), true);
 
         $this->assertArrayHasKey('id', $data[0]);
         $this->assertArrayHasKey('title', $data[0]);
