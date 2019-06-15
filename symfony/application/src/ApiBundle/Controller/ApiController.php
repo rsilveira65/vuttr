@@ -86,15 +86,37 @@ class ApiController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/tools/id/{tool}", name="delete_tools")
+     * @Method("DELETE")
+     * @param Tool $tool
+     * @return JsonResponse
+     */
+    public function deleteToolAction(Tool $tool) : JsonResponse
+    {
+        try {
+
+            $this->getDoctrine()->getManager()->remove($tool);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->createResponse(
+                'Tool has been deleted!',
+                Response::HTTP_OK
+            );
+
+        } catch (\Exception $ex) {
+            return $this->createResponse($ex, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     /**
      * @Route("/tools/tag/{tag}", name="search_tools")
      * @Method("GET")
-     * @param Request $request
      * @param string $tag
      * @return JsonResponse
      */
-    public function searchToolAction(Request $request, string $tag) : JsonResponse
+    public function searchToolAction(string $tag) : JsonResponse
     {
         try {
 

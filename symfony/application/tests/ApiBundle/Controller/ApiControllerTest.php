@@ -80,6 +80,19 @@ class ApiControllerTest extends WebTestCase
     /**
      * @covers \ApiBundle\Controller\ApiController::toolAction()
      */
+    public function testDeleteTool()
+    {
+        $this->client->request(
+            'DELETE',
+            '/api/tools/id/5'
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @covers \ApiBundle\Controller\ApiController::toolAction()
+     */
     public function testSearchTools()
     {
         $this->client->request(
