@@ -33,11 +33,11 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
 
         $data = json_decode($response->getBody(), true);
 
-        $this->assertArrayHasKey('id', $data[0]);
-        $this->assertArrayHasKey('title', $data[0]);
-        $this->assertArrayHasKey('link', $data[0]);
-        $this->assertArrayHasKey('description', $data[0]);
-        $this->assertArrayHasKey('tags', $data[0]);
+        $this->assertArrayHasKey('id', $data);
+        $this->assertArrayHasKey('title', $data);
+        $this->assertArrayHasKey('link', $data);
+        $this->assertArrayHasKey('description', $data);
+        $this->assertArrayHasKey('tags', $data);
     }
 
     /**
@@ -61,11 +61,11 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
 
         $data = json_decode($response->getBody(), true);
 
-        $this->assertArrayHasKey('id', $data[0]);
-        $this->assertArrayHasKey('title', $data[0]);
-        $this->assertArrayHasKey('link', $data[0]);
-        $this->assertArrayHasKey('description', $data[0]);
-        $this->assertArrayHasKey('tags', $data[0]);
+        $this->assertArrayHasKey('id', $data);
+        $this->assertArrayHasKey('title', $data);
+        $this->assertArrayHasKey('link', $data);
+        $this->assertArrayHasKey('description', $data);
+        $this->assertArrayHasKey('tags', $data);
     }
 
     /**
@@ -89,10 +89,10 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
 
         $data = json_decode($response->getBody(), true);
 
-        $this->assertArrayHasKey('id', $data[0]);
-        $this->assertArrayHasKey('title', $data[0]);
-        $this->assertArrayHasKey('link', $data[0]);
-        $this->assertArrayHasKey('description', $data[0]);
-        $this->assertArrayHasKey('tags', $data[0]);
+        $this->assertArrayHasKey('id', $data);
+        $this->assertArrayHasKey('title', $data);
+        $this->assertArrayHasKey('link', $data);
+        $this->assertArrayHasKey('description', $data);
+        $this->assertArrayHasKey('tags', $data);
     }
 }
