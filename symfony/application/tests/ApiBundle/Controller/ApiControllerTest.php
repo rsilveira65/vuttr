@@ -84,7 +84,7 @@ class ApiControllerTest extends WebTestCase
     {
         $this->client->request(
             'DELETE',
-            '/api/tools/id/5'
+            '/api/tools/id/3'
         );
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
