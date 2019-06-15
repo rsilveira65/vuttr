@@ -31,13 +31,6 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $data = json_decode($response->getBody(), true);
-
-        $this->assertArrayHasKey('id', $data);
-        $this->assertArrayHasKey('title', $data);
-        $this->assertArrayHasKey('link', $data);
-        $this->assertArrayHasKey('description', $data);
-        $this->assertArrayHasKey('tags', $data);
     }
 
     /**
@@ -58,14 +51,6 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-
-        $data = json_decode($response->getBody(), true);
-
-        $this->assertArrayHasKey('id', $data);
-        $this->assertArrayHasKey('title', $data);
-        $this->assertArrayHasKey('link', $data);
-        $this->assertArrayHasKey('description', $data);
-        $this->assertArrayHasKey('tags', $data);
     }
 
     /**
@@ -87,12 +72,5 @@ class ApiControllerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
-        $data = json_decode($response->getBody(), true);
-
-        $this->assertArrayHasKey('id', $data);
-        $this->assertArrayHasKey('title', $data);
-        $this->assertArrayHasKey('link', $data);
-        $this->assertArrayHasKey('description', $data);
-        $this->assertArrayHasKey('tags', $data);
     }
 }
