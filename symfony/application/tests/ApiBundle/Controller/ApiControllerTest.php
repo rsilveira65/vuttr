@@ -76,4 +76,25 @@ class ApiControllerTest extends WebTestCase
         $this->assertArrayHasKey('description', $data[0]);
         $this->assertArrayHasKey('tags', $data[0]);
     }
+
+    /**
+     * @covers \ApiBundle\Controller\ApiController::toolAction()
+     */
+    public function testSearchTools()
+    {
+        $this->client->request(
+            'GET',
+            '/api/tools/tag/rest'
+        );
+
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $data = json_decode($this->client->getResponse()->getContent(), true);
+
+        $this->assertArrayHasKey('id', $data[0]);
+        $this->assertArrayHasKey('title', $data[0]);
+        $this->assertArrayHasKey('link', $data[0]);
+        $this->assertArrayHasKey('description', $data[0]);
+        $this->assertArrayHasKey('tags', $data[0]);
+    }
 }

@@ -48,7 +48,6 @@ class LoadTools extends AbstractFixture
 
                     foreach ($tool['Tags'] as $tagTitle) {
 
-                        $newTags[] = $this->createNewTag($manager, $tagTitle);
                         $toolEntity->addTag(
                             $this->createNewTag($manager, $tagTitle)
                         );
@@ -64,9 +63,10 @@ class LoadTools extends AbstractFixture
 
 
             $manager->persist($toolEntity);
+            $manager->flush();
         }
 
-        $manager->flush();
+
     }
 
 

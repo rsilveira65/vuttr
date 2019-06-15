@@ -2,8 +2,9 @@
 
 namespace ApiBundle\Controller;
 
-use ApiBundle\Entity\Company;
+use ApiBundle\Entity\Tag;
 use ApiBundle\Entity\Tool;
+use ApiBundle\Repository\ToolRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,5 +51,25 @@ abstract class AbstractController extends Controller
     protected function getTools()
     {
         return $this->getDoctrine()->getManager()->getRepository(Tool::class)->findAll();
+    }
+
+
+    /**
+     * @param string $tag
+     * @return array|null
+     * @throws \Exception
+     */
+    protected function getToolsByTag(string $tag)
+    {
+        $tagEntity = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Tag::class)
+            ->findOneBy(['title' => $tag]);
+
+
+        if (!$tagEntity instanceof Tag) { throw new \Exception('Invalid tag name.');}
+
+        return $tagEntity->getTools();
     }
 }

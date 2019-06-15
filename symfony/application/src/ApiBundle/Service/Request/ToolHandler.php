@@ -4,6 +4,7 @@ namespace ApiBundle\Service\Request;
 
 use ApiBundle\Entity\Tag;
 use ApiBundle\Entity\Tool;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use \Symfony\Component\HttpFoundation\Request;
 
@@ -57,10 +58,7 @@ class ToolHandler
 
         if (isset($toolArray['tags']) or !empty($toolArray['tags'])) {
             foreach ($toolArray['tags'] as $tagTitle) {
-                $tag = new Tag();
-                $tag->setTitle($tagTitle);
-
-                $tool->addTag($tag);
+                $tool->addTag($this->createNewTag($tagTitle));
             }
         }
 
@@ -69,5 +67,22 @@ class ToolHandler
 
 
         return $tool;
+    }
+
+    /**
+     * @param string $tagTitle
+     * @return Tag|object|null
+     */
+    private function createNewTag(string $tagTitle)
+    {
+        $tagAlreadyExists = $this->em->getRepository(Tag::class)->findOneBy(['title' => $tagTitle]);
+
+        if ($tagAlreadyExists instanceof Tag) {
+            return $tagAlreadyExists;
+        }
+
+        $newTag = (new Tag())->setTitle($tagTitle);
+
+        return $newTag;
     }
 }

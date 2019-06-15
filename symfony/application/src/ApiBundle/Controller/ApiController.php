@@ -5,6 +5,7 @@ namespace ApiBundle\Controller;
 use ApiBundle\Entity\Tool;
 use ApiBundle\Service\Normalize\ToolNormalizer;
 use ApiBundle\Service\Request\ToolHandler;
+use Doctrine\Common\Collections\Collection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,6 +76,38 @@ class ApiController extends AbstractController
                 $toolNormalizer
                     ->normalize(
                         [$tool],
+                        ['groups' => ['ApiResponse']]
+                    ),
+                Response::HTTP_OK
+            );
+
+        } catch (\Exception $ex) {
+            return $this->createResponse($ex, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    /**
+     * @Route("/tools/tag/{tag}", name="search_tools")
+     * @Method("GET")
+     * @param Request $request
+     * @param string $tag
+     * @return JsonResponse
+     */
+    public function searchToolAction(Request $request, string $tag) : JsonResponse
+    {
+        try {
+
+            /** @var ToolNormalizer $toolNormalizer */
+            $toolNormalizer = $this->get('api.tool_normalizer');
+
+            /** @var Tool $tool */
+            $tools = $this->getToolsByTag($tag);
+
+            return $this->createResponse(
+                $toolNormalizer
+                    ->normalize(
+                        $tools->toArray(),
                         ['groups' => ['ApiResponse']]
                     ),
                 Response::HTTP_OK
