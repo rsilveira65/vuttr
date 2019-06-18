@@ -24,7 +24,7 @@ Populate the database
 
     $ docker-compose exec --user=root application bin/console doctrine:fixtures:load -n
 
-
+Download the Postman collection [here](https://www.getpostman.com/collections/68e4f69647f59151bd6b)
 
 ## REST Routes
 
