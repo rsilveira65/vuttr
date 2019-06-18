@@ -1,10 +1,7 @@
 [![Build Status](https://travis-ci.com/rsilveira65/vuttr.svg?branch=master)](https://travis-ci.com/rsilveira65/vuttr)
 
 
-<h4 align="center">
-  vuttr
-</h4>
-<br>
+#vuttr
 
 ## Usage
 
@@ -18,6 +15,16 @@ Make sure that you have [docker](https://www.docker.com) and [docker-compose](ht
     
 
 Server will be running at http://localhost:3000
+
+Create the database schema
+
+    $ docker-compose exec --user=root application bin/console doctrine:schema:update --force
+    
+Populate the database
+
+    $ docker-compose exec --user=root application bin/console doctrine:fixtures:load -n
+
+
 
 ## REST Routes
 
